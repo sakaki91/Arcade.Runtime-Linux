@@ -1,84 +1,123 @@
 #!/bin/bash
 
-customDirectoryFunction(){
-    clear
-    while true; do
-        echo -e "Deseja usar um diretorio customizado?\n"
-        read -p "[S/n] " customDirectoryInput
-        case "$customDirectoryInput" in
-        [Ss])
-            customDirectory=$(zenity --title "Selecione um diretorio customizado (fallback: $HOME)" --file-selection --directory)
-            clear
-            case "$customDirectory" in
-                "/" | "/boot"* | "/dev"* | "/etc"* | "/sys"* | "/proc"*)
-                    echo -e "\e[31mDIRETORIO PROIBIDO, SELECIONE OUTRO.\e[0m"
-                    sleep 2.5
-                    clear
-                ;;
-                *)
-                    echo -e "\e[32mDIRETORIO VALIDO!\e[0m"
-                    #Caso nao seja selecionado nenhum diretorio, o script usara a /home/$USER/ como fallback!
-                    sleep 2.5
-                    clear
-                    break
-                ;;
-            esac
-        ;;
-        [Nn])
-            customDirectory=$HOME
-            clear
-            break
-        ;;
-        *)
-            echo -e "\nOpcao Invalida\n"
-            sleep 1.5
-            clear
-        ;;
-        esac
-    done
+directoryCreation(){
+    DESKTOP_DIR=$(xdg-user-dir DESKTOP)
+    mkdir -p "$HOME"/Teknoparrot/{GAME,PREFIX,DUMPS,TMP}
+    TREE=${HOME}/Teknoparrot
+    GAME=${TREE}/GAME
+    PREFIX=${TREE}/PREFIX
+    RUNNER=${TREE}/RUNNER
+    TMP=${TREE}/TMP
 }
 
-directoryCreation(){
-    cd $customDirectory
-    mkdir -p Teknoparrot && cd Teknoparrot
-    mkdir -p GAME PREFIX DUMPS TMP
-    GAME=${customDirectory}/Teknoparrot/GAME
-    PREFIX=${customDirectory}/Teknoparrot/PREFIX
-    TMP=${customDirectory}/Teknoparrot/TMP
-    cd $customDirectory/Teknoparrot && pwd && ls . && echo -e ""
-    while true; do
-        echo -e "Gostaria de usar o WineGE? (recomendado para distros nao-rollingrelease)\n"
-        read -p "[S/n] " wineGEInstall
-        if [[ $wineGEInstall == [Ss] ]]; then
-            wget https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz
-            tar -xvf wine-lutris-GE-Proton8-26-x86_64.tar.xz
-            mv lutris-GE-Proton8-26-x86_64 RUNNER && rm -rf *.tar.xz
-            break
-        elif [[ $wineGEInstall == [Nn] ]]; then
-            break
-        else
-            echo -e "\nOpcao Invalida\n"
-            sleep 1.5
-            clear
-        fi
-    done
+fileExistenceChecker(){
+    if [[ -f "$GAME"/TPBootstrapper.exe ]]; then
+        rm -rf "$GAME"/TPBootstrapper*
+    fi
+    if [[ -f "$TREE"/Teknoparrot-Linux ]]; then
+        rm -rf "$TREE"/Teknoparrot-Linux
+    fi
+    if [[ -f "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop ]]; then
+        rm -rf "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+    fi
+    if [[ -d "$TREE"/RUNNER ]]; then
+        rm -rf "$TREE"/RUNNER
+    fi
+    if [[ -d "$HOME"/.cache/winetricks ]]; then
+        rm -rf "$HOME"/.cache/winetricks
+    fi
+    
+}
+
+customRunner(){
+    source /etc/os-release
+    if [[ $ID == arch ]]; then
+    (
+    cd "$TMP"
+    if [[ ! -f "/usr/bin/yay" ]]; then
+        sudo pacman -S --needed base-devel
+        wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz &> /dev/null
+        tar -xf yay.tar.gz && cd yay
+        makepkg -si
+    fi
+    if [[ ! -d "/opt/wine-ge-custom-opt/" ]]; then
+        yay -S wine-ge-custom-bin-opt
+    fi
+    )
+    else
+        cd "$TMP"
+        wget -c https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz &> /dev/null
+        tar -xf wine-lutris-GE-Proton8-26-x86_64.tar.xz
+        sudo mv lutris-GE-Proton8-26-x86_64 /opt/wine-ge-custom-opt
+    fi
+    ln -s /opt/wine-ge-custom-opt "$TREE"/RUNNER
 }
 
 dependencyInstall(){
     export WINEPREFIX=${PREFIX}
-    wineboot
-    cd $TMP
-    wget -c https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe
-    wget -c https://aka.ms/dotnet/8.0/dotnet-runtime-win-x64.exe
-    winetricks -q dotnet48
-    wine dotnet-runtime-win-x64.exe /install /quiet /norestart
-    wine windowsdesktop-runtime-win-x64.exe /install /quiet /norestart
-    wget -c https://github.com/nzgamer41/TPBootstrapper/releases/latest/download/TPBootstrapper.zip && cd $GAME && unzip $TMP/TPBootstrapper.zip
-    wine TPBootstrapper.exe
-    rm -f $GAME/TPBootstrapper*
-    rm -rf $TMP
+    echo Creating the Wine prefix && wineboot &> /dev/null
+    echo Downloading .NET Runtime && wget -c https://aka.ms/dotnet/8.0/dotnet-runtime-win-x64.exe --directory-prefix="$TMP" &> /dev/null 
+    echo Downloading .NET Desktop Runtime && wget -c https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe --directory-prefix="$TMP" &> /dev/null 
+    echo "Installing .NET 4.8 (Legacy Dependency)" && winetricks -q dotnet48 &> /dev/null
+    echo "Installing .NET Runtime" && wine "$TMP"/dotnet-runtime-win-x64.exe /install /quiet /norestart &> /dev/null
+    echo "Installing .NET Desktop Runtime" && wine "$TMP"/windowsdesktop-runtime-win-x64.exe /install /quiet /norestart &> /dev/null
+    echo "Downloading Teknoparrot (Web-Installer)" && wget -c https://github.com/nzgamer41/TPBootstrapper/releases/latest/download/TPBootstrapper.zip --directory-prefix="$TMP" &> /dev/null
+    (
+        echo "Extracting Teknoparrot (Web-Installer)" && unzip "$TMP"/TPBootstrapper.zip -d "$GAME" &> /dev/null
+        cd "$GAME"
+        echo -e "Installing Teknoparrot (Web-Installer)" && wine TPBootstrapper.exe &> /dev/null
+    )
+    rm -rf "$GAME"/TPBootstrapper*
+    rm -rf "$TMP"
 }
 
-customDirectoryFunction
+executableCreation(){
+    cp -r .icon.png "$TREE"
+    cd "$TREE"
+    HEADER="#!/bin/bash"
+    DRIPRIME_FLAG="export DRI_PRIME=0 #If you are using a setup with a hybrid GPU (integrated + dedicated), it is highly recommended that you use DRI_PRIME=1 to utilize your dedicated GPU."
+    echo "$HEADER" > Teknoparrot-Linux
+    echo "$DRIPRIME_FLAG" >> Teknoparrot-Linux
+    echo "export WINEPREFIX=$PREFIX" >> Teknoparrot-Linux
+    echo "$RUNNER/bin/wine "$GAME"/TeknoParrotUi.exe" >> Teknoparrot-Linux
+    chmod +x Teknoparrot-Linux
+    while true; do
+        echo -e "Do you want to create a shortcut on your Desktop?\n"
+        read -p "[Y/n] " shortcutInput
+        if [[ -z "$shortcutInput" ]]; then
+            shortcutInput="y"
+        fi
+        case $shortcutInput in
+            [Yy])
+                echo "[Desktop Entry]" > "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Exec="$TREE"/Teknoparrot-Linux" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Name=Teknoparrot" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Icon="$TREE"/.icon.png" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Terminal=false" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Type=Application" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                echo "Categories=Game;" >> "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                chmod +x "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop
+                cp "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop "$HOME"/.local/share/applications/
+                break
+            ;;
+            [Nn])
+                exit
+            ;;
+            *)
+                if [[ -f "$DESKTOP_DIR"/com.sakaki.Teknoparrot.desktop ]]; then
+                    break
+                fi
+                echo -e "\nInvalid value\n"
+                sleep 1.5
+                clear
+            ;;
+        esac
+    done
+}
+
+clear
 directoryCreation
+fileExistenceChecker
+customRunner
 dependencyInstall
+executableCreation
