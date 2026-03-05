@@ -8,7 +8,7 @@ This project is 100% free and open source, and aims to help preserve arcade game
 >  It's almost finished; it installs and prepares directories and dependencies, but it does NOT perform the adjustments or injections.  
 >  I'm a bit slow on this due to health reasons, please be kind.  
 
-Primary dependencies: `bash, wget, zenity, wine, winetricks, lutris`
+Primary dependencies: `bash, wget, git, wine, winetricks`
 
 ### Getting Started: 
 - [[ Setup ]](#setup)
