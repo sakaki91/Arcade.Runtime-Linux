@@ -32,5 +32,4 @@ Soon, go to [Auto install](#auto-install)
 
 Initial D: Arcade Stage 7AXX, (You need to install [xact](https://github.com/sakaki91/Teknoparrot.Core-Linux/issues/1) in the prefix).  
 Wangan Midnight Maximum Tune 6 (6, 6R & 6RR), Works out of the box!  
-
-
+DenshaDeGo!!, Works out of the box! However, installing DXVK in the "Core" prefix is ​​highly recommended for better performance, as WineD3D may not be sufficient.  
