@@ -1,4 +1,4 @@
-# Arcade.Runtime-Linux
+# Arcade.Wrapper-Linux
 #### (formerly Teknoparrot.Core-Linux)
  
 <p>
@@ -48,8 +48,8 @@ __Script Dependencies:__
 Installation:
 
     $ cd ~/
-    $ git clone https://github.com/sakaki91/Arcade.Runtime-Linux
-    $ cd Arcade.Runtime-Linux
+    $ git clone https://github.com/sakaki91/Arcade.Wrapper-Linux
+    $ cd Arcade.Wrapper-Linux
     $ git pull
     $ chmod +x install.sh
     $ ./install.sh
