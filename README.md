@@ -1,4 +1,4 @@
-# Arcade.Runtime-Linux
+# Arcade.Wrapper-Linux
 #### (formerly Teknoparrot.Core-Linux)
  
 <p>
@@ -20,8 +20,9 @@ In short, what is this project? It is basically a __*wrapper* for Linux__ that t
 
 __This project does NOT cover games that depend on APM3.__
 
-Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.  
-If you would like to support the project's development:  
+Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.<br>  
+
+#### If you would like to support the project's development:
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/sakaki91)  
 
 Did you encounter problems? *[Read this](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki/1.-About-the-Project#how-does-the-error-report-work).*
@@ -43,13 +44,14 @@ __Script Dependencies:__
 `wget`  
 `unzip`  
 `tar`  
-`make` *# umu-run needs to be compiled locally (~/.local/bin/umu-run).*
+`wine` # wine-staging recommended!  
+`winetricks`  
 
 Installation:
 
     $ cd ~/
-    $ git clone https://github.com/sakaki91/Arcade.Runtime-Linux
-    $ cd Arcade.Runtime-Linux
+    $ git clone https://github.com/sakaki91/Arcade.Wrapper-Linux
+    $ cd Arcade.Wrapper-Linux
     $ git pull
     $ chmod +x install.sh
     $ ./install.sh
@@ -80,11 +82,8 @@ And now you can proceed with the manual installation!
 First, we will create a basic folder structure in your user folder:
 
     $ cd ~
-    $ mkdir -p Teknoparrot/{PROGRAM,PREFIX,TMP}
-    $ cd Teknoparrot/TMP
-
-The guide uses `umu-run` + `umu-proton` 100%, so first install [UMU-Launcher](https://github.com/Open-Wine-Components/umu-launcher#installing-as-user) as --user-install.  
-and install [UMU-Proton]() in the `Steam Compatibility Tools` ($HOME/.local/share/Steam/compatibilitytools.d) folder.
+    $ mkdir -p TeknoParrot/{PROGRAM,PREFIX,TMP}
+    $ cd TeknoParrot/TMP
 
 Let's start by defining the Environment Variables:
 
@@ -92,31 +91,27 @@ Let's start by defining the Environment Variables:
 	$ export LC_ALL=C
 	$ export LC_NUMERIC=C
 	$ export LANG=en_US.UTF-8
-	$ export GAMEID=0
-	$ export PROTONPATH=$HOME/.local/share/Steam/compatibilitytools.d/UMU-Proton-9.0-4e
 
 Now we will download and install the dependencies in the prefix:
 
-	$ ~/.local/bin/umu-run wineboot -u
+	$ wineboot -u
     $ wget -c https://aka.ms/dotnet/8.0/dotnet-runtime-win-x64.exe
     $ wget -c https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe
     $ wget -c https://github.com/nzgamer41/TPBootstrapper/releases/latest/download/TPBootstrapper.zip
-    $ ~/.local/bin/umu-run dotnet-runtime-win-x64.exe
-    $ ~/.local/bin/umu-run windowsdesktop-runtime-win-x64.exe
+    $ wine dotnet-runtime-win-x64.exe
+    $ wine windowsdesktop-runtime-win-x64.exe
     $ unzip TPBootstrapper.zip -d ~/Teknoparrot/PROGRAM
-    $ ~/.local/bin/umu-run ~/Teknoparrot/PROGRAM/TPBootstrapper.exe
+    $ wine ~/TeknoParrot/PROGRAM/TPBootstrapper.exe
 
 Following this, you should be able to use Teknoparrot normally. 
 
 Below is an example of how the program would run:
 
-__UMUProton__ (Local Installed):
-
-    $ LC_ALL=C LC_NUMERIC=C LANG=en_US.UTF-8 WINEPREFIX=$HOME/Teknoparrot/PREFIX GAMEID=0 PROTONPATH=$HOME/.local/share/Steam/compatibilitytools.d/UMU-Proton-9.0-4e $HOME/.local/bin/umu-run $HOME/Teknoparrot/PROGRAM/TeknoParrotUi.exe
+    $ LC_ALL=C LC_NUMERIC=C LANG=en_US.UTF-8 WINEPREFIX=$HOME/TeknoParrot/PREFIX wine $HOME/TeknoParrot/PROGRAM/TeknoParrotUi.exe
 
 Inconvenient, isn't it? You can create a small initializer (which the script even does automatically in the [(Auto-install)](#auto-install) to automate this "bible" of code:
 
-	$ touch Teknoparrot-Linux
+	$ touch TeknoParrot-Linux
 
 Then edit the file with [nano](https://www.nano-editor.org/) and place this information inside the file:
 
@@ -124,13 +119,11 @@ Then edit the file with [nano](https://www.nano-editor.org/) and place this info
 	export LC_ALL=C
 	export LC_NUMERIC=C
 	export LANG=en_US.UTF-8
-	export WINEPREFIX=$HOME/Teknoparrot/PREFIX
-	export GAMEID=0
-	export PROTONPATH=$HOME/.local/share/Steam/compatibilitytools.d/UMU-Proton-9.0-4e 
-	$HOME/.local/bin/umu-run $HOME/Teknoparrot/PROGRAM/TeknoParrotUi.exe
+	export WINEPREFIX=$HOME/TeknoParrot/PREFIX
+	wine $HOME/TeknoParrot/PROGRAM/TeknoParrotUi.exe
 
 And after that:
 
-    $ chmod +x Teknoparrot-Linux
-    $ ./Teknoparrot-Linux
+    $ chmod +x TeknoParrot-Linux
+    $ ./TeknoParrot-Linux
 
