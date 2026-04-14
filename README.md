@@ -1,51 +1,29 @@
-# Arcade.Wrapper-Linux
-#### (formerly Teknoparrot.Core-Linux)
- 
-<p>
+__Arcade.Wrapper-Linux.  
+(formerly Teknoparrot.Core-Linux).__
 
-This project is 100% free and open source, and aims to help preserve arcade game emulation in a way that is compatible with the Linux kernel, trying to decouple it as much as possible from the Windows NT kernel.
+This project is 100% free and open source, and aims to help preserve arcade game emulation in a way that is compatible with the Linux kernel, attempting to decouple it as much as possible from the Windows NT kernel, essentially serving as a Linux wrapper that translates the NT wrapper (TeknoParrot).  
 
-</p>
+This guide does NOT use illegal dumps or proprietary code from the original projects; it is merely an alternative method to make something that already exists work on other kernels (use your legal dumps).  
 
-<p>
+Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.  
 
-We also __DO NOT USE illegal dumps (always use your legal dumps!)__ and we __DO NOT USE proprietary code from the [TeknoParrot](https://teknoparrot.com/en/) project, nor from the consoles/arcades__.
-
-</p>
-<p>
-
-In short, what is this project? It is basically a __*wrapper* for Linux__ that translates a __*wrapper* for NT__.
-
-</p>
-
-__This project does NOT cover games that depend on *APM3* (for now).__
-
-Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.<br>  
-
-#### If you would like to support the project's development:
+#### If you would like to support the project's development (This is entirely optional, but it would make me happy :) and encourage the active development of this project):
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/sakaki91)  
 
 Did you encounter problems? *[Read this](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki/1.-About-the-Project#how-does-the-error-report-work).*
 
-### Getting Started: 
-- [[ Auto-install ]](#auto-install)
-- [[ Manual-install ]](#manual-install)
-	- [[ Wiki ]](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki)
-	- [[ Currently supported games ]](https://www.github.com/sakaki91/Arcade.Runtime-Linux/wiki/2.-Currently-supported-games)
+#### Getting Started: 
+* [[ Auto-install ]](#auto-install)
+* [[ Manual-install ]](#manual-install)
+* [[ Wiki ]](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki)
+* [[ Currently supported games ]](https://www.github.com/sakaki91/Arcade.Runtime-Linux/wiki/2.-Currently-supported-games)
 
-## Auto Install:
+#### Auto Install:
 
 __Script Dependencies:__  
 *Don't know how to install it on your distribution? [Check this out](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki/3.-Dependencies-and-Distros-Hardware-tested.).*
 
-`bash`  
-`git`  
-`zenity`  
-`wget`  
-`unzip`  
-`tar`  
-`wine-staging` [[link]](https://gitlab.winehq.org/wine/wine-staging)  
-`winetricks`  
+    bash git zenity wget unzip tar wine-staging winetricks
 
 Installation:
 
@@ -56,7 +34,7 @@ Installation:
     $ chmod +x install.sh
     $ ./install.sh
 
-## Manual Install:
+#### Manual Install:
 
 Some games require extra adjustments to the `/etc/locale.gen` file, first, check if `en_US.utf8` is present in your locale file:
 
@@ -111,7 +89,7 @@ Below is an example of how the program would run:
 
 Inconvenient, isn't it? You can create a small initializer (which the script even does automatically in the [(Auto-install)](#auto-install) to automate this "bible" of code:
 
-	$ touch TeknoParrot-Linux
+	$ touch TeknoParrot
 
 Then edit the file with [nano](https://www.nano-editor.org/) and place this information inside the file:
 
@@ -124,6 +102,6 @@ Then edit the file with [nano](https://www.nano-editor.org/) and place this info
 
 And after that:
 
-    $ chmod +x TeknoParrot-Linux
-    $ ./TeknoParrot-Linux
+    $ chmod +x TeknoParrot
+    $ ./TeknoParrot
 
