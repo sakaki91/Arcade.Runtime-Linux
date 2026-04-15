@@ -3,11 +3,11 @@ __Arcade.Wrapper-Linux.
 
 This project is 100% free and open source, and aims to help preserve arcade game emulation in a way that is compatible with the Linux kernel, attempting to decouple it as much as possible from the Windows NT kernel, essentially serving as a Linux wrapper that translates the NT wrapper (TeknoParrot).  
 
-This guide does NOT use illegal dumps or proprietary code from the original projects; it is merely an alternative method to make something that already exists work on other kernels (use your legal dumps).  
+This guide does NOT use illegal dumps or proprietary code from the original projects, and does not cover __APM3 games__ or games that run with __ElfLdr2__ *[(see why)](https://github.com/sakaki91/Arcade.Wrapper-Linux/wiki/1.-About-the-Project#why-is-there-no-support-for-apm3-and-elfldr2)*, it is merely an alternative method to make something that already exists work on other kernels (use your legal dumps).
 
 Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.  
 
-#### If you would like to support the project's development (This is entirely optional, but it would make me happy :) and encourage the active development of this project):
+#### If you would like to support the project's development (This is entirely optional, but it would make me happy):
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/sakaki91)  
 
 Did you encounter problems? *[Read this](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki/1.-About-the-Project#how-does-the-error-report-work).*
