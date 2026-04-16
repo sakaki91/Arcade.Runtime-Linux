@@ -14,12 +14,12 @@ Did you encounter problems? *[Read this](https://github.com/sakaki91/Arcade.Runt
 
 #### Getting Started: 
 First, [check the compatibility list](https://www.github.com/sakaki91/Arcade.Runtime-Linux/wiki/2.-Currently-supported-games) (as some games require different settings and may not work efficiently with my wrapper, since there are better native options).  
-* [[ Auto-install ]](#auto-install)
-* [[ Manual-install ]](#manual-install)
+* [[ Auto install ]](#auto-install)
+* [[ Manual install ]](#manual-install)
+* [[ Extra Tweaks]](#extra-tweaks)
 * [[ Wiki ]](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki)
 
 #### Auto Install:
-
 __Script Dependencies:__  
 *Don't know how to install it on your distribution? [Check this out](https://github.com/sakaki91/Arcade.Runtime-Linux/wiki/3.-Dependencies-and-Distros-Hardware-tested.).*
 
@@ -35,7 +35,6 @@ Installation:
     $ ./install.sh
 
 #### Manual Install:
-
 Some games require extra adjustments to the `/etc/locale.gen` file, first, check if `en_US.utf8` is present in your locale file:
 
 	$ locale -a
@@ -105,3 +104,16 @@ And after that:
     $ chmod +x TeknoParrot
     $ ./TeknoParrot
 
+#### Extra Tweaks:
+We'll use some paths like absolute-paths as examples, don't forget to adapt them to your directories!  
+There are some optional tweaks you can make to improve your experience, which are listed below:  
+* Does your GPU not support Vulkan or has limited support?
+  * If you have partial support, you can try installing an older version of DXVK (eg: dxvk2010) compatible with your GPU.
+  * If you have no Vulkan support at all, you can open `winecfg` within the prefix and remove the following dlls: `d3d10core, d3d11, d3d8, d3d9, dxgi`(this will affect performance).  
+* Are you experiencing graphical bugs in the TeknoParrot UI? `Disable Hardware Acceleration in the launcher settings.`
+* Would you like Discord to detect TeknoParrotUI and games opened through it? [Download this](https://github.com/EnderIce2/rpc-bridge/releases/latest/download/bridge.zip).  
+
+and run it below:  
+
+    $ unzip path-to-archive/bridge.zip
+	$ WINEPREFIX=path-to-prefix wine path-to-archive/bridge.exe --install
