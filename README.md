@@ -10,7 +10,7 @@ This project is 100% free and open source, and aims to help preserve arcade game
 
 This guide does NOT use illegal dumps or proprietary code from the original projects, and does not cover __APM3 games__ or games that run with __ElfLdr2__ *[(see why)](https://github.com/sakaki91/Arcade.Wrapper-Linux/wiki/1.-About-the-Project#why-is-there-no-support-for-apm3-and-elfldr2)*, it is merely an alternative method to make something that already exists work on other kernels (use your legal dumps).
 
-Please be patient if something doesn't work (this is quite common), I'm doing this alone and trying my best.  
+Please be patient if something doesn't work (this is quite common), most problems are "mapped in the dark" precisely because of the absence of the source code. I'm doing this myself and trying my best.  
 
 #### If you would like to support the project's development (This is entirely optional, but it would make me happy):
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/sakaki91)  
