@@ -2,8 +2,9 @@
 
 ERROR_LOG="\e[1;31m"
 NC="\033[0m"
-PROJECT_HEADER="awl 3.2-5"
+PROJECT_HEADER="awl 3.2-6"
 AWL_LOCATION=""
+UMU_LOCATION=""
 TEKNO_LOCATION=""
 PREFIX_LOCATION=""
 
@@ -33,7 +34,7 @@ teknoRunWrapper(){
     if [[ $RUNNER == "wine" ]]; then
         LC_ALL=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8 LANG=en_US.UTF-8 WINEPREFIX=$AWL_LOCATION/pfx wine $AWL_LOCATION/bin/TeknoParrotUi.exe &>> /dev/null
     elif [[ $RUNNER == "umu" ]]; then
-        LC_ALL=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8 LANG=en_US.UTF-8 GAMEID=0 PROTONPATH="$HOME"/.local/share/Steam/compatibilitytools.d/UMU-Proton-10.0-4/ WINEPREFIX=$AWL_LOCATION/pfx_umu umu-run $AWL_LOCATION/bin/TeknoParrotUi.exe &>> /dev/null
+        LC_ALL=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8 LANG=en_US.UTF-8 GAMEID=0 PROTONPATH="$UMU_LOCATION" WINEPREFIX=$AWL_LOCATION/pfx_umu umu-run $AWL_LOCATION/bin/TeknoParrotUi.exe &>> /dev/null
     fi
     printf "done!\n"
 }
@@ -44,11 +45,14 @@ while true; do
 	read -p "> " mainIO
     case $mainIO in
         "help")
-            printf "run play\t\tOpens the emulator compatible with Namco System [147/246]\nrun dolphin\t\tOpens the emulator compatible with Sega Triforce\nrun tekno-wine\t\tOpens the wine-wrapper compatible with TeknoParrot/OpenParrot and their respective platforms.\nrun tekno-umu\t\tOpens the umu-wrapper compatible with TeknoParrot/OpenParrot and their respective platforms.\n"
+            printf "help\t\t\tshow this message.\nclear\t\t\tclear the screen.\nexit\t\t\tkill the process.\nrun play\t\tOpens the emulator compatible with Namco System [147/246].\nrun dolphin\t\tOpens the emulator compatible with Sega Triforce.\nrun tekno-wine\t\tOpens the wine-wrapper compatible with TeknoParrot/OpenParrot and their respective platforms.\nrun tekno-umu\t\tOpens the umu-wrapper compatible with TeknoParrot/OpenParrot and their respective platforms.\n"
         ;;
         "clear")
             clear
             printf "$PROJECT_HEADER (type: help)\n"
+        ;;
+        "exit")
+            break
         ;;
         "run play")
             playRunWrapper
