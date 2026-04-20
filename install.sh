@@ -65,6 +65,9 @@ dependencyInstall(){
         ls $TREE &>> $AWL_LOG && ls $TREE/* &>> $AWL_LOG
         rm -f "$PROGRAM"/TPBootstrapper*
         rm -r "$TMP" && printf "$NORMAL_LOG Temporary files cleared. $DONE_LOG\n"
+        sleep 1.5
+        pkill -f TPBootstrapper.exe
+        pkill -f TeknoParrotUi.exe
         cp -rT "$PREFIX" "$TREE"/pfx_umu
     else
         printf " $ERROR_LOG\n" && exit
@@ -76,7 +79,7 @@ executableCreation(){
     sed -i "s|^\s*TEKNO_LOCATION=.*|TEKNO_LOCATION=\"$PROGRAM\"|" awl.sh
     sed -i "s|^\s*PREFIX_LOCATION=.*|PREFIX_LOCATION=\"$PREFIX\"|" awl.sh
     chmod +x awl.sh
-    mv awl.sh "$TREE"/awl
+    cp awl.sh "$TREE"/awl
 }
 
 case $1 in
