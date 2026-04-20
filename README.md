@@ -28,7 +28,6 @@ Installation:
     $ cd ~/
     $ git clone https://github.com/sakaki91/Arcade.Wrapper-Linux
     $ cd Arcade.Wrapper-Linux
-    $ git pull
     $ chmod +x install.sh
     $ ./install.sh
 	$ cd path-to-your-tp-installation/
